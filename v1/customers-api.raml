@@ -1,0 +1,28 @@
+#%RAML 1.0
+
+title: Customers API
+version: v1
+mediaType: application/json
+protocols: [ HTTPS ,HTTP]
+baseUri: https://mocksvc.mulesoft.com/mocks/dbcb64be-481c-45fc-8668-bae575d9868a/{version} # baseUri: http://localhost/{version}
+
+uses:
+    Types:  dataTypes/Types.raml
+   
+resourceTypes:
+  collection: !include resourceTypes/collection.raml
+  item: !include resourceTypes/item.raml
+
+/customers:
+  type:
+    collection:
+      response-example: !include examples/customer/GetCustomers.raml
+      request-example:  !include examples/customer/PostCustomer.raml    
+
+  /{customer_id}:
+    type:
+      item:
+        get-response-example: !include examples/customer/GetCustomer.raml
+        patch-request-example: !include examples/customer/PatchCustomer.raml
+        put-request-example: !include examples/customer/PutCustomer.raml
+   

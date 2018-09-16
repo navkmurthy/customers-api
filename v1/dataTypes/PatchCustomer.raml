@@ -1,0 +1,9 @@
+#%RAML 1.0 DataType
+
+ properties:
+      first_name?:
+      last_name?: 
+      addresses?: 
+        type: array
+        items: 
+          type: !include Address.raml
