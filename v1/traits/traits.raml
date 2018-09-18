@@ -3,12 +3,19 @@
 usage:  Traits for the Customer API
 
 traits:
-  cacheable: !include cacheable.raml
+  auditable: !include auditable.raml
+  conflict-errorable: !include conflict-errorable.raml
+  source-trackable: !include source-trackable.raml
+  content-cacheable: !include content-cacheable.raml
+  no-cacheable: !include no-cacheable.raml
+  cross-originable: !include cross-originable.raml
   pageable: !include pageable.raml
   partial: !include partial.raml
   searchable: !include searchable.raml
   sortable: !include sortable.raml
   versioned: !include versioned.raml
-  
+  4xx-errorable: !include 4xx-errorable.raml
+  5xx-errorable: !include 5xx-errorable.raml
+  oauth-authorizeable: !include oauth-authorizeable.raml
 
   

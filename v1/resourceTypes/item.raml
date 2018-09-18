@@ -7,7 +7,7 @@ uses:
 
 description: Single item of the collection of <<resourcePathName>>
 get:
-  is: [ traits.versioned,traits.cacheable,traits.partial]
+  is: [ traits.versioned,traits.content-cacheable,traits.partial]
   description: |
     Retrieve the specified <<resourcePathName>>
   responses:
@@ -60,7 +60,7 @@ put:
       body:
         application/json:
           example: |
-           {"message": "<<resourcePathName|!singularize>> Conflict" }   
+           {"message": "<<resourcePathName|!singularize>> Conflict" }
 delete:
   is: [ traits.versioned ]
   description: |
@@ -73,4 +73,4 @@ delete:
       body:
         application/json:
           example: |
-           {"message": "<<resourcePathName|!singularize>> not found" }  
+           {"message": "<<resourcePathName|!singularize>> not found" }
