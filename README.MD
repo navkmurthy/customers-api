@@ -13,6 +13,6 @@ This API design displays the following capabilities
 3.  API Design using extensions to support future resources such as orders and products  
 
 
-# Authors
+# Author
 
 Navaneeth Keshavamurthy
