@@ -1,0 +1,142 @@
+#%RAML 1.0
+
+title: Customers API
+version: v1
+description: Customer API is a RESTful API design the operations to create,retrieve ,update,replace ,delete and Search Customer resource.
+
+baseUri: https://mocksvc.mulesoft.com/mocks/0283a73c-7a8d-466d-95db-1ade296d83dd/{version} # baseUri: http://localhost/{version}
+
+mediaType: [ application/json ]
+resourceTypes:
+    collection: !include resourceTypes/collection.raml
+    item: !include resourceTypes/item.raml
+
+uses:
+  Types:  dataTypes/Types.raml
+  traits: traits/traits.raml
+
+securitySchemes:
+  BasicAuth: !include securitySchemes/BasicAuth.raml
+  OAuth2_0: !include securitySchemes/OAuth2_0.raml
+
+securedBy: BasicAuth
+
+/customers:
+  description: Describes the methods available for creating, updating, retrieving ,deleting and searching Customers.
+  post:
+    is: [traits.source-trackable,traits.auditable, traits.4xx-errorable,traits.5xx-errorable,traits.conflict-errorable,traits.cross-originable ]
+    description: Create a new <<resourcePathName|!singularize>>
+    body:
+      application/json:
+        example: !include examples/customer/PostCustomer.raml
+    responses:
+      201:
+        description: |
+            Succesfully created a new resource
+        headers:
+            Location:
+              description: |
+                Location of the newly created resource
+              type: string
+              required: false
+  get:
+    is: [ traits.source-trackable,traits.pageable, traits.sortable ,traits.auditable,traits.4xx-errorable,traits.5xx-errorable,traits.content-cacheable]
+    description: List all <<resourcePathName> matching query criteria, if provided; otherwise list all <<resourcePathName>
+    queryParameters:
+      first_name?: string
+      last_Name?: string
+    responses:
+      200:
+        body:
+          application/json:
+              example: !include examples/customer/GetCustomers.raml
+  /{search}: 
+    description: Search for all <<resourcePathName>> based on criteria and the search paramters provided
+    post:
+      is:  [traits.4xx-errorable,traits.5xx-errorable,traits.content-cacheable,traits.auditable]
+      body:
+        application/json:
+          example: !include examples/customer/SearchCustomers.raml
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include examples/customer/GetSearchCustomers.raml
+  /{customer_id}:
+    get:
+      is: [ traits.content-cacheable,traits.partial,traits.4xx-errorable,traits.5xx-errorable,traits.auditable]
+      description: |
+        Retrieve the specified <<resourcePathName>>
+      responses:
+        200:
+          description: |
+            Succesfully retrieved <<resourcePathName>>
+          body:
+            application/json:
+              example:
+                !include examples/customer/GetCustomer.raml
+        404:
+          description: Resource not found
+          body:
+            application/json:
+              type: !include dataTypes/Error.raml
+              example:
+                error_code: Not found
+                error_detail: The requested resource could not be found but may be available in the future.
+    patch:
+      is: [ traits.4xx-errorable,traits.auditable,traits.5xx-errorable]
+      description: |
+        Updates an existing <<resourcePathName>> similar to the creation of New <<resourcePathName>> except that all fields are optional here.
+      body:
+        application/json:
+          example: !include examples/customer/PatchCustomer.raml
+      responses:
+        204:
+          description: Succesfully updated <<resourcePathName>>
+        404:
+          description: Resource not found
+          body:
+            application/json:
+              type: !include dataTypes/Error.raml
+              example:
+                        error_code: Not found
+                        error_detail: The requested resource could not be found but may be available in the future.
+    put:
+      is: [ traits.conflict-errorable,traits.4xx-errorable,traits.5xx-errorable ]
+      description: Replaces the existing <<resourcePathName>> with the updated <<resourcePathName>> completely
+      body:
+        application/json:
+          example: !include examples/customer/PutCustomer.raml
+      responses:
+        204:
+          description: |
+            Succesfully updated the resource
+        404:
+          description: Resource not found
+          body:
+            application/json:
+              type: !include dataTypes/Error.raml
+              example:
+                        error_code: Not found
+                        error_detail: The requested resource could not be found but may be available in the future.
+        409:
+          body:
+            application/json:
+               example:  
+                error_code: Conflict
+                error_detail: Request could not be processed because of conflict in the current state of the resource
+    delete:
+      is: [ traits.4xx-errorable,traits.5xx-errorable ]
+      description: |
+        Delete the <<resourcePathName>>
+      responses:
+        204:
+          description: |
+            Succesfully deleted the customer
+        404:
+          body:
+            application/json:
+              example: 
+                error_code: Not found
+                error_detail: The requested resource could not be found but may be available in the future.
+
