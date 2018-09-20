@@ -1,4 +1,7 @@
-# RAML document to implement Customers API  V1 
+# RAML document to implement Customers API 
+
+Version : 1.0
+
 Design of RESTful API using RAML that contains a single resource, customers, and allows the following:
  
 1.	List customers
